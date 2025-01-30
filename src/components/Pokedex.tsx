@@ -1,4 +1,6 @@
 import Pokecard from "./Pokecard";
+import { animate, motion, useMotionValue, useTransform } from "motion/react";
+import { useEffect } from "react";
 
 interface Pokemon {
   id: number;
@@ -18,17 +20,16 @@ const Pokedex: Pokemon[] = [
   { id: 133, name: "Eevee", type: "normal", base_experience: 65 },
 ];
 
-const shuffle = (array) => {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+function shuffleArray(array: Pokemon[]): Pokemon[] {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
   }
-  return array;
-};
 
-let newRandomArray: [] = shuffle(Pokedex);
+const newRandomArray: Pokemon[] = shuffleArray(Pokedex);
 const damagePlayer1 = newRandomArray
   .slice(0, 4)
   .reduce((acc, total) => acc + total.base_experience, 0);
@@ -37,6 +38,24 @@ const damagePlayer2 = newRandomArray
   .reduce((acc, total) => acc + total.base_experience, 0);
 
 export default function Player() {
+
+    const damage1 = useMotionValue(0);
+    const damage2 = useMotionValue(0);
+
+    const roundedScore1 = useTransform(() => Math.round(damage1.get()));
+    const roundedScore2 = useTransform(() => Math.round(damage2.get()));
+
+    useEffect(() => {
+        const controls1 = animate(damage1, damagePlayer1, {duration: 5})
+        const controls2 = animate(damage2, damagePlayer2, {duration: 5})
+    
+        return () => {
+            controls1.stop();
+            controls2.stop();
+        };
+    }, []);
+
+
   return (
     <>
       {newRandomArray.slice(0, 4).map((card) => (
@@ -47,8 +66,13 @@ export default function Player() {
           exp={card.base_experience}
         />
       ))}
-      <p>{damagePlayer1}</p>
-      <p>{damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}</p>
+    <motion.p>
+        {/* Animate damagePlayer1 */}
+        {roundedScore1}
+    </motion.p>
+      <p>
+        {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
+      </p>
       <div>
         -----------------------------------------------------------------------------------------------------------------
       </div>
@@ -60,8 +84,13 @@ export default function Player() {
           exp={card.base_experience}
         />
       ))}
-      <p>{damagePlayer2}</p>
-      <p>{damagePlayer2 > damagePlayer1 ? "Winner" : "Loser"}</p>
+      <motion.p>
+        {/* Animate damagePlayer2 */}
+        {roundedScore2}
+      </motion.p>
+      <p>
+        {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
+      </p>
     </>
   );
 }
