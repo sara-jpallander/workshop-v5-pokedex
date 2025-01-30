@@ -1,4 +1,4 @@
-// import Pokecard from "./Pokecard";
+import Pokecard from "./Pokecard";
 interface Playerprops {
   id: number;
   hand: [];

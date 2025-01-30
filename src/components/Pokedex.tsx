@@ -1,3 +1,5 @@
+import Pokecard from "./Pokecard";
+
 interface Pokemon {
     id: number;
     name: string;
@@ -16,4 +18,25 @@ const Pokedex: Pokemon[] = [
     {id: 133, name: 'Eevee',      type: 'normal',   base_experience: 65}
   ]
 
-  export default Pokedex
+  const shuffle = (array) => {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array
+  };
+let newRandomArray: [] = shuffle(Pokedex);
+
+  export default function Player() { 
+    
+    
+       return (
+        <>
+        {newRandomArray.slice(0,4).map((card) => <Pokecard id={card.id} name={card.name} type={card.type} exp={card.base_experience}/>).reduce((acc, total) => acc += total.base_experience , 0)}
+        <div>-----------------------------------------------------------------------------------------------------------------</div>
+        {newRandomArray.slice(4,8).map(card => <Pokecard id={card.id} name={card.name} type={card.type} exp={card.base_experience}/>)}
+        </>
+       )
+  }

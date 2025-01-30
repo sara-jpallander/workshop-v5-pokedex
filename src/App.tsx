@@ -8,7 +8,7 @@ function App() {
     <>
       <h1>Pokedex</h1>
       {/* <Pokecard id={4} name="Charmander" type="fire" exp={62}/> */}
-      <Player />
+      <Pokedex />
     </>
   );
 }
