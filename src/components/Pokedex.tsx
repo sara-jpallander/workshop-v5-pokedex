@@ -40,14 +40,20 @@ const damagePlayer2 = newRandomArray
 
 export default function Player() {
 
+    const msg = document.querySelectorAll('.game-msg')
+    msg.forEach(element => {
+        let item = element as HTMLParagraphElement;
+        
+        if(item) {
+            item.style.display = "none";
+        }
+    });
+
     const damage1 = useMotionValue(0);
     const damage2 = useMotionValue(0);
 
     const roundedScore1 = useTransform(() => Math.round(damage1.get()));
     const roundedScore2 = useTransform(() => Math.round(damage2.get()));
-
-/*     const myTimeout1 = setTimeout(() => { damagePlayer1 > damagePlayer2 ? "Winner" : "Loser" }, 6000);
-    const myTimeout2 = setTimeout(() => { damagePlayer2 > damagePlayer1 ? "Winner" : "Loser" }, 6000); */
 
     useEffect(() => {
         const controls1 = animate(damage1, damagePlayer1, {duration: 5})
@@ -59,7 +65,16 @@ export default function Player() {
         };
     }, []);
 
-
+    setTimeout(() => {
+        const msg = document.querySelectorAll('.game-msg')
+        msg.forEach(element => {
+            let item = element as HTMLParagraphElement;
+            
+            if(item) {
+                item.style.display = "block";
+            }
+        });
+    }, 6000);
   return (
     <>
     <div className="text-center place-items-center">
@@ -77,7 +92,7 @@ export default function Player() {
             {/* Animate damagePlayer1 */}
             {roundedScore1}
         </motion.p>
-        <p>
+        <p style={{ color: damagePlayer1 > damagePlayer2 ? "green" : "red" }} className="game-msg">
             {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
         </p>
     </div>
@@ -102,7 +117,7 @@ export default function Player() {
             {roundedScore2}
         </motion.p>
 
-        <p>
+        <p style={{ color: damagePlayer2 > damagePlayer1 ? "green" : "red" }} className="game-msg">
             {damagePlayer2 > damagePlayer1 ? "Winner" : "Loser"}
         </p>
     </div>
