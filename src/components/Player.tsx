@@ -1,4 +1,4 @@
-import Pokedex from "./Pokedex";
+/* import Pokedex from "./Pokedex";
 import Pokecard from "./Pokecard";
 
 
@@ -31,3 +31,4 @@ export default function Player({ id, hand }: Playerprops): JSX.Element {
     </>
   );
 }
+ */

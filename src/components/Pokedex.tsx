@@ -37,6 +37,7 @@ const damagePlayer2 = newRandomArray
   .slice(4, 7)
   .reduce((acc, total) => acc + total.base_experience, 0);
 
+
 export default function Player() {
 
     const damage1 = useMotionValue(0);
@@ -44,6 +45,9 @@ export default function Player() {
 
     const roundedScore1 = useTransform(() => Math.round(damage1.get()));
     const roundedScore2 = useTransform(() => Math.round(damage2.get()));
+
+/*     const myTimeout1 = setTimeout(() => { damagePlayer1 > damagePlayer2 ? "Winner" : "Loser" }, 6000);
+    const myTimeout2 = setTimeout(() => { damagePlayer2 > damagePlayer1 ? "Winner" : "Loser" }, 6000); */
 
     useEffect(() => {
         const controls1 = animate(damage1, damagePlayer1, {duration: 5})
@@ -58,39 +62,50 @@ export default function Player() {
 
   return (
     <>
-      {newRandomArray.slice(0, 4).map((card) => (
-        <Pokecard
-          id={card.id}
-          name={card.name}
-          type={card.type}
-          exp={card.base_experience}
-        />
-      ))}
-    <motion.p>
-        {/* Animate damagePlayer1 */}
-        {roundedScore1}
-    </motion.p>
-      <p>
-        {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
-      </p>
+    <div className="text-center place-items-center">
+        <div className="flex gap-5 my-10">
+            {newRandomArray.slice(0, 4).map((card) => (
+                <Pokecard
+                id={card.id}
+                name={card.name}
+                type={card.type}
+                exp={card.base_experience}
+                />
+            ))}
+        </div>
+        <motion.p>
+            {/* Animate damagePlayer1 */}
+            {roundedScore1}
+        </motion.p>
+        <p>
+            {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
+        </p>
+    </div>
+
+
       <div>
         -----------------------------------------------------------------------------------------------------------------
       </div>
-      {newRandomArray.slice(4, 8).map((card) => (
-        <Pokecard
-          id={card.id}
-          name={card.name}
-          type={card.type}
-          exp={card.base_experience}
-        />
-      ))}
-      <motion.p>
-        {/* Animate damagePlayer2 */}
-        {roundedScore2}
-      </motion.p>
-      <p>
-        {damagePlayer1 > damagePlayer2 ? "Winner" : "Loser"}
-      </p>
+    <div className="text-center place-items-center">
+        <div className="flex gap-5 my-10">
+            {newRandomArray.slice(4, 8).map((card) => (
+                <Pokecard
+                id={card.id}
+                name={card.name}
+                type={card.type}
+                exp={card.base_experience}
+                />
+            ))}
+        </div>
+        <motion.p>
+            {/* Animate damagePlayer2 */}
+            {roundedScore2}
+        </motion.p>
+
+        <p>
+            {damagePlayer2 > damagePlayer1 ? "Winner" : "Loser"}
+        </p>
+    </div>
     </>
   );
 }
