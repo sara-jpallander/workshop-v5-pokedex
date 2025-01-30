@@ -2,6 +2,7 @@ import React from "react";
 import Pokedex from "./components/Pokedex";
 import Pokecard from "./components/Pokecard";
 import Player from "./components/Player";
+import { Button } from "@/components/ui/button";
 
 function App() {
   return (
